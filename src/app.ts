@@ -1,6 +1,7 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, Router } from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
+import skillsRouter from "./routes/skills.routers";
 
 const app = express();
 require("dotenv").config();
@@ -10,9 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // routes
-app.get("/", (req: Request, res: Response) => {
-  res.send("welcome to my backend");
-});
+app.use("/mybrand/skills", skillsRouter);
 
 // Connect to DB
 mongoose
