@@ -1,9 +1,9 @@
-import express, { Request, Response, Router } from "express";
+import express, { Express} from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
 import skillsRouter from "./routes/skills.routers";
 
-const app = express();
+const app: Express = express();
 require("dotenv").config();
 
 // middlewares

@@ -1,7 +1,15 @@
-import mongoose from "mongoose";
-
+import mongoose, { Document } from "mongoose";
 const { Schema, model } = mongoose;
 
+export interface ISkills extends Document {
+  name: string;
+  type: string;
+  image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Define the schema for the Skills model
 const SkillsSchema = new Schema(
   {
     name: {
@@ -21,5 +29,5 @@ const SkillsSchema = new Schema(
     timestamps: true,
   }
 );
-const Skills = model("Skills", SkillsSchema);
+const Skills = model<ISkills>("Skills", SkillsSchema);
 export default Skills;

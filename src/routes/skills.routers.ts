@@ -1,15 +1,15 @@
 import express, { Router } from "express";
 const router: Router = express.Router();
 import {
-  getAllSkills,
-  getSkill,
+  getSkills,
+  getSkillById,
   createSkill,
   updateSkill,
   deleteSkill,
 } from "../controllers/skills.controllers";
 
-router.get("/", getAllSkills);
-router.get("/:id", getSkill);
+router.get("/", getSkills);
+router.get("/:id", getSkillById);
 router.post("/", createSkill);
 router.put("/:id", updateSkill);
 router.delete("/:id", deleteSkill);
