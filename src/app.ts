@@ -1,7 +1,8 @@
-import express, { Express} from "express";
+import express, { Express } from "express";
 import mongoose from "mongoose";
 import "dotenv/config";
 import skillsRouter from "./routes/skills.routers";
+import projectRouter from "./routes/projct.routers";
 
 const app: Express = express();
 require("dotenv").config();
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.use("/mybrand/skills", skillsRouter);
+app.use("/mybrand/project", projectRouter);
 
 // Connect to DB
 mongoose
