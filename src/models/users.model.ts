@@ -29,7 +29,7 @@ const UserSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, "Please Enter email"],
+      required: [true, "Please Enter Email"],
     },
     image: {
       type: String,
