@@ -1,44 +1,84 @@
-import mongoose, { Document } from "mongoose";
-const { Schema, model } = mongoose;
+import { Request, Response } from "express";
+import Blog, { IBlog } from "../models/blog.model";
 
-export interface IBlog extends Document {
-  blogTitle: string;
-  category: string;
-  blogContent: string;
-  image?: string;
-  comments?: String;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-// Define the schema for the Blog model
-const BlogSchema = new Schema(
-  {
-    blogTitle: {
-      type: String,
-      required: [true, "Please Enter Blog Title"],
-    },
-    category: {
-      type: String,
-      required: [true, "Please Enter Blog Category"],
-    },
-    blogContent: {
-      type: String,
-      required: [true, "Please Enter Blog Content"],
-    },
-    image: {
-      type: String,
-      required: false,
-    },
-    comments: {
-      type: Array,
-      required: false,
-      default: [],
-    },
-  },
-  {
-    timestamps: true,
+// get all Blog
+export const getBlog = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const blog: IBlog[] = await Blog.find({});
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
   }
-);
-const Blog = model<IBlog>("Blog", BlogSchema);
-export default Blog;
+};
+
+// create a new Blog
+export const createBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const newBlog: IBlog = new Blog(req.body);
+    const savedBlog: IBlog = await newBlog.save();
+    res.status(201).json(savedBlog);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
+// get a single Blog by ID
+export const getBlogById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const blogId: string = req.params.id;
+    const blog: IBlog | null = await Blog.findById(blogId);
+    if (!blog) {
+      res.status(404).json({ message: "Blog not found" });
+      return;
+    }
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
+// update a Blog by ID
+export const updateBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const blogId: string = req.params.id;
+    const updatedBlog: IBlog | null = await Blog.findByIdAndUpdate(
+      blogId,
+      req.body,
+      { new: true }
+    );
+    if (!updatedBlog) {
+      res.status(404).json({ message: "Blog not found" });
+      return;
+    }
+    res.status(200).json(updatedBlog);
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
+//  delete a Blog by ID
+export const deleteBlog = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const blogId: string = req.params.id;
+    const deletedBlog: IBlog | null = await Blog.findByIdAndDelete(blogId);
+    if (!deletedBlog) {
+      res.status(404).json({ message: "Blog not found" });
+      return;
+    }
+    res.status(200).json({ message: "Blog deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
