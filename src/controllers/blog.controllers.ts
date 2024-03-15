@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import Blog, { IBlog } from "../models/blog.model";
 
 // get all Blog
-export const getBlog = async (req: Request, res: Response): Promise<void> => {
+export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   try {
     const blog: IBlog[] = await Blog.find({});
     res.status(200).json(blog);
