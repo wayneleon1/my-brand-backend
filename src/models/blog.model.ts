@@ -10,7 +10,6 @@ export interface IBlog extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
 // Define the schema for the Blog model
 const BlogSchema = new Schema(
   {
