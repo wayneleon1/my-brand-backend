@@ -5,7 +5,10 @@ import skillsRouter from "./routes/skills.routers";
 import projectRouter from "./routes/project.routers";
 import blogRouter from "./routes/blog.routers";
 import userRouter from "./routes/users.routers";
+import { connectToDatabase } from "./config/dbConnection";
 
+//connect to the database
+connectToDatabase();
 const app: Express = express();
 require("dotenv").config();
 
@@ -19,17 +22,7 @@ app.use("/mybrand/project", projectRouter);
 app.use("/mybrand/blog", blogRouter);
 app.use("/mybrand/user", userRouter);
 
-// Connect to DB
-mongoose
-  .connect(
-    `mongodb+srv://${process.env.USER_NAME}:${process.env.KEY}@backend.a1mvapj.mongodb.net/${process.env.COLLECTION_NAME}?retryWrites=true&w=majority&appName=backend`
-  )
-  .then(() => {
-    console.log("Connected to the Database");
-    app.listen(process.env.PORT, () => {
-      console.log("You are listening on port http://localhost:3000");
-    });
-  })
-  .catch(() => {
-    console.log("Connection fail");
-  });
+// listening to the port
+app.listen(process.env.PORT, () => {
+  console.log("You are listening on port http://localhost:3000");
+});
