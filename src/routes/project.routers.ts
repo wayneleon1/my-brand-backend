@@ -8,10 +8,11 @@ import {
   deleteProject,
 } from "../controllers/project.controllers";
 
-router.get("/", getProject);
-router.get("/:id", getProjectById);
-router.post("/", createProject);
-router.put("/:id", updateProject);
-router.delete("/:id", deleteProject);
+router.route("/").get(getProject).post(createProject);
+router
+  .route("/:id")
+  .get(getProjectById)
+  .put(updateProject)
+  .delete(deleteProject);
 
 export default router;

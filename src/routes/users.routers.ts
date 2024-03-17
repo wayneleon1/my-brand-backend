@@ -8,10 +8,7 @@ import {
   deleteUser,
 } from "../controllers/users.controllers";
 
-router.get("/", getUsers);
-router.get("/:id", getUserById);
-router.post("/", createUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.route("/").get(getUsers).post(createUser);
+router.route("/:id").get(getUserById).put(updateUser).delete(deleteUser);
 
 export default router;

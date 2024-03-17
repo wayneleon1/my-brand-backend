@@ -8,10 +8,7 @@ import {
   deleteBlog,
 } from "../controllers/blog.controllers";
 
-router.get("/", getBlogs);
-router.get("/:id", getBlogById);
-router.post("/", createBlog);
-router.put("/:id", updateBlog);
-router.delete("/:id", deleteBlog);
+router.route("/").get(getBlogs).post(createBlog);
+router.route("/:id").get(getBlogById).put(updateBlog).delete(deleteBlog);
 
 export default router;

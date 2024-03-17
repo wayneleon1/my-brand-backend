@@ -8,10 +8,6 @@ import {
   deleteSkill,
 } from "../controllers/skills.controllers";
 
-router.get("/", getSkills);
-router.get("/:id", getSkillById);
-router.post("/", createSkill);
-router.put("/:id", updateSkill);
-router.delete("/:id", deleteSkill);
-
+router.route("/").get(getSkills).post(createSkill);
+router.route("/:id").get(getSkillById).put(updateSkill).delete(deleteSkill);
 export default router;
