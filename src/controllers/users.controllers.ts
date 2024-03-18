@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/users.model";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-// import jwt from "jsonwebtoken";
-
+// User Registration
 export const registerUser = async (
   req: Request,
   res: Response
@@ -41,7 +41,7 @@ export const registerUser = async (
 // get all User
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const user: IUser[] = await User.find({});
+    const user: IUser[] = await User.find({}, { password: 0 });
     res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
@@ -55,7 +55,7 @@ export const getUserById = async (
 ): Promise<void> => {
   try {
     const userId: string = req.params.id;
-    const user: IUser | null = await User.findById(userId);
+    const user: IUser | null = await User.findById(userId, { password: 0 });
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
