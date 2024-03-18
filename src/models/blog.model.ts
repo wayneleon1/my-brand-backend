@@ -13,6 +13,11 @@ export interface IBlog extends Document {
 // Define the schema for the Blog model
 const BlogSchema = new Schema(
   {
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      require: true,
+      ref: "Blog",
+    },
     blogTitle: {
       type: String,
       required: [true, "Please Enter Blog Title"],
