@@ -1,25 +1,48 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/users.model";
+import bcrypt from "bcrypt";
+
+// import jwt from "jsonwebtoken";
+
+export const registerUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { firstName, lastName, email, password, role } = req.body;
+
+  if (!firstName || !lastName || !email || !password || !role) {
+    res.status(400);
+    throw new Error("All fields are mandatory!");
+  }
+
+  const userAvailable = await User.findOne({ email });
+  if (userAvailable) {
+    res.status(400).json({ message: "User already registered!" });
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser: IUser = new User({
+    firstName,
+    lastName,
+    email,
+    password: hashedPassword,
+    role,
+  });
+
+  try {
+    const user = await newUser.save();
+    res.status(201).json({ _id: user.id, email: user.email, role: user.role });
+  } catch (error) {
+    res.status(400).json({ message: "User data was not valid" });
+  }
+};
 
 // get all User
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: IUser[] = await User.find({});
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
-  }
-};
-
-// create a new User
-export const createUser = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const newUser: IUser = new User(req.body);
-    const savedUser: IUser = await newUser.save();
-    res.status(201).json(savedUser);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
