@@ -1,4 +1,6 @@
 import express, { Router } from "express";
+import validateToken from "../middleware/validateTokenHandler";
+
 const router: Router = express.Router();
 import {
   getUsers,
@@ -10,7 +12,11 @@ import {
 } from "../controllers/users.controllers";
 
 router.post("/login", loginUser);
-router.route("/").get(getUsers).post(registerUser);
-router.route("/:id").get(getUserById).put(updateUser).delete(deleteUser);
+router.route("/").get(validateToken, getUsers).post(registerUser);
 
+router
+  .route("/:id")
+  .get(validateToken, getUserById)
+  .put(validateToken, updateUser)
+  .delete(validateToken, deleteUser);
 export default router;
