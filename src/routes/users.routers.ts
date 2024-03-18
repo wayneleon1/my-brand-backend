@@ -6,8 +6,10 @@ import {
   registerUser,
   updateUser,
   deleteUser,
+  loginUser,
 } from "../controllers/users.controllers";
 
+router.post("/login", loginUser);
 router.route("/").get(getUsers).post(registerUser);
 router.route("/:id").get(getUserById).put(updateUser).delete(deleteUser);
 

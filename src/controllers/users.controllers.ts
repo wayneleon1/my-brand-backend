@@ -19,7 +19,6 @@ export const registerUser = async (
   if (userAvailable) {
     res.status(400).json({ message: "User already registered!" });
   }
-
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
   const newUser: IUser = new User({
@@ -101,6 +100,38 @@ export const deleteUser = async (
       return;
     }
     res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: (error as Error).message });
+  }
+};
+
+// Login user
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400);
+      throw new Error("All fields are mandatory!");
+    }
+
+    const user = await User.findOne({ email });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      res.status(401);
+      throw new Error("Email or password is not valid");
+    }
+
+    const accessToken = jwt.sign(
+      {
+        user: {
+          email: user.email,
+          id: user.id,
+        },
+      },
+      process.env.ACCESS_TOKEN_SECRET || "",
+      { expiresIn: "15m" }
+    );
+
+    res.status(200).json({ accessToken });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
