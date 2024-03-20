@@ -8,7 +8,7 @@ export const getProject = async (
 ): Promise<void> => {
   try {
     const project: IProject[] = await Project.find({});
-    res.status(200).json(project);
+    res.status(200).json({ data: project });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

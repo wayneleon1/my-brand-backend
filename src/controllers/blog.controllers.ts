@@ -5,7 +5,7 @@ import Blog, { IBlog } from "../models/blog.model";
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   try {
     const blog: IBlog[] = await Blog.find({});
-    res.status(200).json(blog);
+    res.status(200).json({ data: blog });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
