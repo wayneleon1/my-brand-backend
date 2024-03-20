@@ -8,10 +8,11 @@ import userRouter from "./routes/users.routers";
 import { connectToDatabase } from "./config/dbConnection";
 import BlogCommentRouter from "./routes/blogComment.routers";
 
-//connect to the database
-connectToDatabase();
 const app: Express = express();
 require("dotenv").config();
+
+//connect to the database
+connectToDatabase();
 
 // middlewares
 app.use(express.json());
