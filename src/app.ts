@@ -6,6 +6,7 @@ import projectRouter from "./routes/project.routers";
 import blogRouter from "./routes/blog.routers";
 import userRouter from "./routes/users.routers";
 import { connectToDatabase } from "./config/dbConnection";
+import BlogCommentRouter from "./routes/blogComment.routers";
 
 //connect to the database
 connectToDatabase();
@@ -21,6 +22,7 @@ app.use("/mybrand/skills", skillsRouter);
 app.use("/mybrand/project", projectRouter);
 app.use("/mybrand/blog", blogRouter);
 app.use("/mybrand/user", userRouter);
+app.use("/mybrand/blogComment", BlogCommentRouter);
 
 // listening to the port
 app.listen(process.env.PORT, () => {

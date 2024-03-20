@@ -31,7 +31,12 @@ export const registerUser = async (
 
   try {
     const user = await newUser.save();
-    res.status(201).json({ _id: user.id, email: user.email, role: user.role });
+    res.status(201).json({
+      message: "User registered successfully",
+      _id: user.id,
+      email: user.email,
+      role: user.role,
+    });
   } catch (error) {
     res.status(400).json({ message: "User data was not valid" });
   }
@@ -41,7 +46,7 @@ export const registerUser = async (
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const user: IUser[] = await User.find({}, { password: 0 });
-    res.status(200).json(user);
+    res.status(200).json({ data: user });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

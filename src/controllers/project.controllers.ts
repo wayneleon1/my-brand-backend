@@ -8,7 +8,7 @@ export const getProject = async (
 ): Promise<void> => {
   try {
     const project: IProject[] = await Project.find({});
-    res.status(200).json(project);
+    res.status(200).json({ data: project });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
@@ -22,7 +22,9 @@ export const createProject = async (
   try {
     const newProject: IProject = new Project(req.body);
     const savedProject: IProject = await newProject.save();
-    res.status(201).json(savedProject);
+    res
+      .status(201)
+      .json({ message: "Project added successfully", data: savedProject });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
