@@ -5,7 +5,7 @@ export interface IUser extends Document {
   firstName: string;
   lastName: string;
   password: string;
-  hostedLink: string;
+  email: string;
   image?: string;
   role: string;
   createdAt: Date;
@@ -30,6 +30,7 @@ const UserSchema = new Schema(
     email: {
       type: String,
       required: [true, "Please Enter Email"],
+      unique: [true, "Email address already taken"],
     },
     image: {
       type: String,

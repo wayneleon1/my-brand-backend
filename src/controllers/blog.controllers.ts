@@ -12,13 +12,42 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
 };
 
 // create a new Blog
+// export const createBlog = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   try {
+//     const newBlog: IBlog = new Blog(req.body);
+//     const savedBlog: IBlog = await newBlog.save();
+//     res.status(201).json(savedBlog);
+//   } catch (error) {
+//     res.status(500).json({ message: (error as Error).message });
+//   }
+// };
+
 export const createBlog = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const newBlog: IBlog = new Blog(req.body);
+    const user_id = req.user?.id;
+    const { blogTitle, category, blogContent, image, comments } = req.body;
+
+    if (!user_id) {
+      res.status(400).json({ message: "User ID is missing" });
+      return;
+    }
+    const newBlog: IBlog = new Blog({
+      user_id,
+      blogTitle,
+      category,
+      blogContent,
+      image,
+      comments,
+    });
+
     const savedBlog: IBlog = await newBlog.save();
+
     res.status(201).json(savedBlog);
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });

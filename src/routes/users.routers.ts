@@ -1,17 +1,22 @@
 import express, { Router } from "express";
+import validateToken from "../middleware/validateTokenHandler";
+
 const router: Router = express.Router();
 import {
   getUsers,
   getUserById,
-  createUser,
+  registerUser,
   updateUser,
   deleteUser,
+  loginUser,
 } from "../controllers/users.controllers";
 
-router.get("/", getUsers);
-router.get("/:id", getUserById);
-router.post("/", createUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.post("/login", loginUser);
+router.route("/").get(validateToken, getUsers).post(registerUser);
 
+router
+  .route("/:id")
+  .get(validateToken, getUserById)
+  .put(validateToken, updateUser)
+  .delete(validateToken, deleteUser);
 export default router;

@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 const router: Router = express.Router();
+import validateToken from "../middleware/validateTokenHandler";
 import {
   getSkills,
   getSkillById,
@@ -8,10 +9,10 @@ import {
   deleteSkill,
 } from "../controllers/skills.controllers";
 
-router.get("/", getSkills);
-router.get("/:id", getSkillById);
-router.post("/", createSkill);
-router.put("/:id", updateSkill);
-router.delete("/:id", deleteSkill);
-
+router.route("/").get(getSkills).post(validateToken, createSkill);
+router
+  .route("/:id")
+  .get(getSkillById)
+  .put(validateToken, updateSkill)
+  .delete(validateToken, deleteSkill);
 export default router;

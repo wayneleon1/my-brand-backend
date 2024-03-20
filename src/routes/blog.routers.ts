@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 const router: Router = express.Router();
+import validateToken from "../middleware/validateTokenHandler";
 import {
   getBlogs,
   getBlogById,
@@ -8,10 +9,11 @@ import {
   deleteBlog,
 } from "../controllers/blog.controllers";
 
-router.get("/", getBlogs);
-router.get("/:id", getBlogById);
-router.post("/", createBlog);
-router.put("/:id", updateBlog);
-router.delete("/:id", deleteBlog);
+router.route("/").get(getBlogs).post(validateToken, createBlog);
+router
+  .route("/:id")
+  .get(getBlogById)
+  .put(validateToken, updateBlog)
+  .delete(validateToken, deleteBlog);
 
 export default router;

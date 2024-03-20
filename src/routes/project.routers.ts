@@ -1,4 +1,5 @@
 import express, { Router } from "express";
+import validateToken from "../middleware/validateTokenHandler";
 const router: Router = express.Router();
 import {
   getProject,
@@ -8,10 +9,11 @@ import {
   deleteProject,
 } from "../controllers/project.controllers";
 
-router.get("/", getProject);
-router.get("/:id", getProjectById);
-router.post("/", createProject);
-router.put("/:id", updateProject);
-router.delete("/:id", deleteProject);
+router.route("/").get(getProject).post(validateToken, createProject);
+router
+  .route("/:id")
+  .get(getProjectById)
+  .put(validateToken, updateProject)
+  .delete(validateToken, deleteProject);
 
 export default router;
