@@ -19,7 +19,9 @@ export const createSkill = async (
   try {
     const newSkill: ISkills = new Skills(req.body);
     const savedSkill: ISkills = await newSkill.save();
-    res.status(201).json(savedSkill);
+    res
+      .status(201)
+      .json({ message: "Skill added successfully", data: savedSkill });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

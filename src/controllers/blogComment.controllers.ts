@@ -21,23 +21,26 @@ export const createComment = async (
     res.status(404).json({ message: "Blog not found" });
     return;
   } else {
-    let newCommentDocument: IBlogComment = new BlogComment({
-      name: req.body.name,
-      email: req.body.email,
-      content: req.body.content,
-      blog_id: blog_id,
-    });
-    let commentData = await newCommentDocument.save();
+    try {
+      let newCommentDocument: IBlogComment = new BlogComment({
+        name: req.body.name,
+        email: req.body.email,
+        content: req.body.content,
+        blog_id: blog_id,
+      });
+      let commentData = await newCommentDocument.save();
 
-    await Blog.updateOne(
-      { _id: blog_id },
-      {
-        $push: { comments: commentData._id },
-      }
-    );
-
-    res
-      .status(200)
-      .send({ message: "Comment added successfuly", data: commentData });
+      await Blog.updateOne(
+        { _id: blog_id },
+        {
+          $push: { comments: commentData._id },
+        }
+      );
+      res
+        .status(200)
+        .send({ message: "Comment added successfuly", data: commentData });
+    } catch (error) {
+      res.status(500).json({ message: (error as Error).message });
+    }
   }
 };

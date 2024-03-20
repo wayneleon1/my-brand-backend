@@ -22,7 +22,9 @@ export const createProject = async (
   try {
     const newProject: IProject = new Project(req.body);
     const savedProject: IProject = await newProject.save();
-    res.status(201).json(savedProject);
+    res
+      .status(201)
+      .json({ message: "Project added successfully", data: savedProject });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }

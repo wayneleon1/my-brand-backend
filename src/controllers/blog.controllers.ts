@@ -11,20 +11,6 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// create a new Blog
-// export const createBlog = async (
-//   req: Request,
-//   res: Response
-// ): Promise<void> => {
-//   try {
-//     const newBlog: IBlog = new Blog(req.body);
-//     const savedBlog: IBlog = await newBlog.save();
-//     res.status(201).json(savedBlog);
-//   } catch (error) {
-//     res.status(500).json({ message: (error as Error).message });
-//   }
-// };
-
 export const createBlog = async (
   req: Request,
   res: Response
@@ -48,7 +34,9 @@ export const createBlog = async (
 
     const savedBlog: IBlog = await newBlog.save();
 
-    res.status(201).json(savedBlog);
+    res
+      .status(201)
+      .json({ message: "Blog created successfully", data: savedBlog });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
