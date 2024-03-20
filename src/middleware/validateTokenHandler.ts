@@ -7,6 +7,8 @@ interface AuthenticatedRequest extends Request {
   user?: any;
 }
 
+// validateToken 
+
 const validateToken = asyncHandler(
   async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     let token;
