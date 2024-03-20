@@ -15,7 +15,7 @@ const QueriesSchema = new Schema(
   {
     names: {
       type: String,
-      required: [true, "Please Enter your  Names"],
+      required: [true, "Please Enter your Names"],
     },
     email: {
       type: String,
