@@ -20,9 +20,9 @@ const BlogCommentSchema = new Schema(
       type: String,
       required: [true, "Please Enter your Email"],
     },
-    comment: {
+    content: {
       type: String,
-      require: [true, "Please Enter your Comment"],
+      require: [true, "Please Enter your content"],
     },
     blog_id: {
       type: mongoose.Schema.Types.ObjectId,

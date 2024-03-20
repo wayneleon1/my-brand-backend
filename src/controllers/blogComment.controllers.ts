@@ -20,7 +20,24 @@ export const createComment = async (
   if (!blog) {
     res.status(404).json({ message: "Blog not found" });
     return;
-  }
+  } else {
+    let newCommentDocument: IBlogComment = new BlogComment({
+      name: req.body.name,
+      email: req.body.email,
+      content: req.body.content,
+      blog_id: blog_id,
+    });
+    let commentData = await newCommentDocument.save();
 
-  res.status(200).send({ message: "Comment added successfuly" });
+    await Blog.updateOne(
+      { _id: blog_id },
+      {
+        $push: { comments: commentData._id },
+      }
+    );
+
+    res
+      .status(200)
+      .send({ message: "Comment added successfuly", data: commentData });
+  }
 };

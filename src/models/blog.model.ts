@@ -22,10 +22,7 @@ const BlogSchema = new Schema(
       type: String,
       required: [true, "Please Enter Blog Title"],
     },
-    category: {
-      type: String,
-      required: [true, "Please Enter Blog Category"],
-    },
+    category: [{ type: mongoose.Schema.Types.ObjectId, ref: "BlogComment" }],
     blogContent: {
       type: String,
       required: [true, "Please Enter Blog Content"],
