@@ -22,7 +22,10 @@ const BlogSchema = new Schema(
       type: String,
       required: [true, "Please Enter Blog Title"],
     },
-    category: [{ type: mongoose.Schema.Types.ObjectId, ref: "BlogComment" }],
+    category: {
+      type: String,
+      required: [true, "Please Enter category"],
+    },
     blogContent: {
       type: String,
       required: [true, "Please Enter Blog Content"],
@@ -31,11 +34,7 @@ const BlogSchema = new Schema(
       type: String,
       required: false,
     },
-    comments: {
-      type: Array,
-      required: false,
-      default: [],
-    },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "BlogComment" }],
   },
   {
     timestamps: true,
