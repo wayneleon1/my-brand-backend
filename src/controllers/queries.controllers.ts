@@ -14,7 +14,7 @@ export const getQueries = async (
   }
 };
 
-// create a new Query
+// Create a new Query
 export const createQuery = async (
   req: Request,
   res: Response
@@ -30,7 +30,7 @@ export const createQuery = async (
   }
 };
 
-// get a single Query by ID
+// Get a single Query by ID
 export const getQueryById = async (
   req: Request,
   res: Response
@@ -48,29 +48,7 @@ export const getQueryById = async (
   }
 };
 
-// update a Query by ID
-export const updateQuery = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  try {
-    const queryId: string = req.params.id;
-    const updatedQuery: IQueries | null = await Queries.findByIdAndUpdate(
-      queryId,
-      req.body,
-      { new: true }
-    );
-    if (!updatedQuery) {
-      res.status(404).json({ message: "Message not found" });
-      return;
-    }
-    res.status(200).json(updatedQuery);
-  } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
-  }
-};
-
-//  delete a Query by ID
+//  Delete a Query by ID
 export const deleteQuery = async (
   req: Request,
   res: Response
