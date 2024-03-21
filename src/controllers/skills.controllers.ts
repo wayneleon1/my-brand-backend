@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Skills, { ISkills } from "../models/skills.model";
+import { uploadToCloud } from "../helper/cloud";
 
 // get all skills
 export const getSkills = async (req: Request, res: Response): Promise<void> => {
@@ -17,8 +18,17 @@ export const createSkill = async (
   res: Response
 ): Promise<void> => {
   try {
+    const { name, type } = req.body;
+    let result: any;
+    console.log(req.file, req.body);
+    if (req.file) result = await uploadToCloud(req.file, res);
+
     const newSkill: ISkills = new Skills(req.body);
-    const savedSkill: ISkills = await newSkill.save();
+    const savedSkill = await newSkill.save({
+      name,
+      type,
+      image: result.url,
+    });
     res
       .status(201)
       .json({ message: "Skill added successfully", data: savedSkill });

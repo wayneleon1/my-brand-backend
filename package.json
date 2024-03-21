@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/multer": "^1.4.11",
     "mongodb": "^6.4.0",
     "mongoose": "^8.2.1",
     "ts-node-dev": "^2.0.0",

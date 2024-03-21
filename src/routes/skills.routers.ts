@@ -8,8 +8,12 @@ import {
   updateSkill,
   deleteSkill,
 } from "../controllers/skills.controllers";
+import fileUpload from "../helper/multer";
 
-router.route("/").get(getSkills).post(validateToken, createSkill);
+router
+  .route("/")
+  .get(getSkills)
+  .post(validateToken, fileUpload.single("image"), createSkill);
 router
   .route("/:id")
   .get(getSkillById)
