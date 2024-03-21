@@ -12,23 +12,32 @@ export const getSkills = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// create a new skill
 export const createSkill = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const { name, type } = req.body;
-    let result: any;
-    console.log(req.file, req.body);
-    if (req.file) result = await uploadToCloud(req.file, res);
+    let imageUrl: string | undefined = undefined;
 
-    const newSkill: ISkills = new Skills(req.body);
-    const savedSkill = await newSkill.save({
+    if (req.file) {
+      // Upload image to Cloudinary if it exists
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+    // Create a new skill instance
+    const newSkill: ISkills = new Skills({
       name,
       type,
-      image: result.url,
+      image: imageUrl,
     });
+    const savedSkill = await newSkill.save();
+
     res
       .status(201)
       .json({ message: "Skill added successfully", data: savedSkill });
