@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import User, { IUser } from "../models/users.model";
+import { uploadToCloud } from "../helper/cloud";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -21,11 +22,24 @@ export const registerUser = async (
   }
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Upload Image
+  let imageUrl: string | undefined = undefined;
+  if (req.file) {
+    const result = await uploadToCloud(req.file, res);
+    if ("url" in result) {
+      // If 'url' property exists in result, set imageUrl
+      imageUrl = result.url;
+    } else {
+      throw new Error("Failed to upload image to Cloudinary");
+    }
+  }
   const newUser: IUser = new User({
     firstName,
     lastName,
     email,
     password: hashedPassword,
+    image: imageUrl,
     role,
   });
 
@@ -135,7 +149,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       process.env.ACCESS_TOKEN_SECRET || "",
       { expiresIn: "15m" }
     );
-
     res.status(200).json({ accessToken });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
