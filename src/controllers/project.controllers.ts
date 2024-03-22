@@ -35,7 +35,6 @@ export const createProject = async (
         throw new Error("Failed to upload image to Cloudinary");
       }
     }
-
     const newProject: IProject = new Project({
       projectName,
       category,
