@@ -18,15 +18,15 @@ export const createBlog = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user_id = req.user?.id;
+    // const user_id = req.user?.id;
     const { blogTitle, category, blogContent, comments } = req.body;
     let imageUrl: string | undefined = undefined;
 
     // Checking if user is Existing
-    if (!user_id) {
-      res.status(400).json({ message: "User ID is missing" });
-      return;
-    }
+    // if (!user_id) {
+    //   res.status(400).json({ message: "User ID is missing" });
+    //   return;
+    // }
 
     //Check if Image is Uploaded
     if (req.file) {
@@ -40,7 +40,7 @@ export const createBlog = async (
     }
 
     const newBlog: IBlog = new Blog({
-      user_id,
+      // user_id,
       blogTitle,
       category,
       blogContent,
