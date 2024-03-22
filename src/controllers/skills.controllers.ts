@@ -12,6 +12,7 @@ export const getSkills = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
+// Create a new skill
 export const createSkill = async (
   req: Request,
   res: Response
@@ -21,7 +22,6 @@ export const createSkill = async (
     let imageUrl: string | undefined = undefined;
 
     if (req.file) {
-      // Upload image to Cloudinary if it exists
       const result = await uploadToCloud(req.file, res);
       if ("url" in result) {
         // If 'url' property exists in result, set imageUrl
@@ -30,7 +30,6 @@ export const createSkill = async (
         throw new Error("Failed to upload image to Cloudinary");
       }
     }
-    // Create a new skill instance
     const newSkill: ISkills = new Skills({
       name,
       type,

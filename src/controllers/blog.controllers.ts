@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Blog, { IBlog } from "../models/blog.model";
+import { uploadToCloud } from "../helper/cloud";
 
 // get all Blog
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
@@ -10,25 +11,39 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: (error as Error).message });
   }
 };
-
+// Create a new Blog
 export const createBlog = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
     const user_id = req.user?.id;
-    const { blogTitle, category, blogContent, image, comments } = req.body;
+    const { blogTitle, category, blogContent, comments } = req.body;
+    let imageUrl: string | undefined = undefined;
 
+    // Checking if user is Existing
     if (!user_id) {
       res.status(400).json({ message: "User ID is missing" });
       return;
     }
+
+    //Check if Image is Uploaded
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+
     const newBlog: IBlog = new Blog({
       user_id,
       blogTitle,
       category,
       blogContent,
-      image,
+      image: imageUrl,
       comments,
     });
 

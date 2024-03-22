@@ -8,8 +8,12 @@ import {
   updateBlog,
   deleteBlog,
 } from "../controllers/blog.controllers";
+import fileUpload from "../helper/multer";
 
-router.route("/").get(getBlogs).post(validateToken, createBlog);
+router
+  .route("/")
+  .get(getBlogs)
+  .post(validateToken, fileUpload.single("image"), createBlog);
 router
   .route("/:id")
   .get(getBlogById)
