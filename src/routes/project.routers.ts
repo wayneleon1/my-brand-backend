@@ -8,8 +8,12 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/project.controllers";
+import fileUpload from "../helper/multer";
 
-router.route("/").get(getProject).post(validateToken, createProject);
+router
+  .route("/")
+  .get(getProject)
+  .post(validateToken, fileUpload.single("image"), createProject);
 router
   .route("/:id")
   .get(getProjectById)

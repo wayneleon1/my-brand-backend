@@ -11,6 +11,7 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: (error as Error).message });
   }
 };
+
 // Create a new Blog
 export const createBlog = async (
   req: Request,

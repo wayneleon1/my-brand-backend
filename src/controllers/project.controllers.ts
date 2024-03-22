@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Project, { IProject } from "../models/project.model";
+import { uploadToCloud } from "../helper/cloud";
 
 // get all Project
 export const getProject = async (
@@ -20,7 +21,29 @@ export const createProject = async (
   res: Response
 ): Promise<void> => {
   try {
-    const newProject: IProject = new Project(req.body);
+    const { projectName, category, githubLink, hostedLink, description } =
+      req.body;
+
+    let imageUrl: string | undefined = undefined;
+    //Check if Image is Uploaded
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+
+    const newProject: IProject = new Project({
+      projectName,
+      category,
+      githubLink,
+      hostedLink,
+      image: imageUrl,
+      description,
+    });
     const savedProject: IProject = await newProject.save();
     res
       .status(201)
