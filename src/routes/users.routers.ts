@@ -10,9 +10,13 @@ import {
   deleteUser,
   loginUser,
 } from "../controllers/users.controllers";
+import fileUpload from "../helper/multer";
 
 router.post("/login", loginUser);
-router.route("/").get(validateToken, getUsers).post(registerUser);
+router
+  .route("/")
+  .get(validateToken, getUsers)
+  .post(fileUpload.single("image"), registerUser);
 
 router
   .route("/:id")

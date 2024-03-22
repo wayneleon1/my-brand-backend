@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Skills, { ISkills } from "../models/skills.model";
+import { uploadToCloud } from "../helper/cloud";
 
 // get all skills
 export const getSkills = async (req: Request, res: Response): Promise<void> => {
@@ -11,14 +12,31 @@ export const getSkills = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-// create a new skill
+// Create a new skill
 export const createSkill = async (
   req: Request,
   res: Response
 ): Promise<void> => {
   try {
-    const newSkill: ISkills = new Skills(req.body);
-    const savedSkill: ISkills = await newSkill.save();
+    const { name, type } = req.body;
+    let imageUrl: string | undefined = undefined;
+
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+    const newSkill: ISkills = new Skills({
+      name,
+      type,
+      image: imageUrl,
+    });
+    const savedSkill = await newSkill.save();
+
     res
       .status(201)
       .json({ message: "Skill added successfully", data: savedSkill });
