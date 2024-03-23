@@ -10,13 +10,13 @@ export const createComment = async (
 ): Promise<void> => {
   let blog_id = req.params.blog_id;
 
-     // checking Blog ID
+  // checking Blog ID
   if (!mongoose.Types.ObjectId.isValid(blog_id)) {
     res.status(400).json({ message: "Invalid Blog ID" });
     return;
   }
 
-     // Get blog by Id
+  // Get blog by Id
   const blog: IBlog | null = await Blog.findById(blog_id);
 
   if (!blog) {
@@ -39,7 +39,7 @@ export const createComment = async (
         }
       );
       res
-        .status(200)
+        .status(201)
         .send({ message: "Comment added successfuly", data: commentData });
     } catch (error) {
       res.status(500).json({ message: (error as Error).message });

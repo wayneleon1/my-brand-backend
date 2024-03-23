@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 export const registerUser = async (req: Request, res: Response) => {
   const { firstName, lastName, email, password, role } = req.body;
 
-  if (!firstName || !lastName || !email || !password || !role) {
+  if (!firstName || !lastName || !email || !password) {
     return res.status(400).send({ message: "All fields are mandatory!" });
   }
 
@@ -142,8 +142,8 @@ export const loginUser = async (req: Request, res: Response) => {
           id: user.id,
         },
       },
-      process.env.ACCESS_TOKEN_SECRET || "",
-      { expiresIn: "15m" }
+      process.env.ACCESS_TOKEN_SECRET || ""
+      // { expiresIn: "15m" }
     );
     return res.status(200).json({ accessToken });
   } catch (error) {
