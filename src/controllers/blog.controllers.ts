@@ -6,7 +6,9 @@ import { uploadToCloud } from "../helper/cloud";
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
   try {
     const blog: IBlog[] = await Blog.find({});
-    res.status(200).json({ data: blog });
+    res
+      .status(200)
+      .json({ message: "Data retrieved successfully", data: blog });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
