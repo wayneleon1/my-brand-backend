@@ -1,19 +1,15 @@
 import express, { Express, Request, Response } from "express";
-import mongoose from "mongoose";
 import "dotenv/config";
 import skillsRouter from "./routes/skills.routers";
 import projectRouter from "./routes/project.routers";
 import blogRouter from "./routes/blog.routers";
 import userRouter from "./routes/users.routers";
-import { connectToDatabase } from "./config/dbConnection";
+
 import BlogCommentRouter from "./routes/blogComment.routers";
 import queriesRouter from "./routes/queries.routers";
 
 const app: Express = express();
 require("dotenv").config();
-
-//connect to the database
-connectToDatabase();
 
 // middlewares
 app.use(express.json());
@@ -32,10 +28,5 @@ app.use("/mybrand/blog", blogRouter);
 app.use("/mybrand/user", userRouter);
 app.use("/mybrand/queries", queriesRouter);
 app.use("/mybrand/blogComment", BlogCommentRouter);
-
-// listening to the port
-app.listen(process.env.PORT, () => {
-  console.log("You are listening on port http://localhost:3000");
-});
 
 export default app;

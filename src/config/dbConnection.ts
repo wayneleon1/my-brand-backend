@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// Connect to Real Database
+// Connect to Real Database/
 export const connectToDatabase = async () => {
   try {
     await mongoose.connect(
@@ -13,7 +13,7 @@ export const connectToDatabase = async () => {
 };
 
 // Connect to Test Database
-export const tesConnectToDatabase = async () => {
+export const testConnectToDatabase = async () => {
   try {
     await mongoose.connect(
       `mongodb+srv://${process.env.TEST_USER_NAME}:${process.env.TEST_KEY}@cluster0.zel7qfl.mongodb.net/${process.env.TEST_COLLECTION_NAME}?retryWrites=true&w=majority&appName=Cluster0`

@@ -6,15 +6,16 @@ export const queryData = {
 };
 
 export const userData = {
-  firstname: "Rurangwa",
-  lastname: "Leon",
-  email: "leon@gmail.com",
-  password: "12345678",
-  role: "admin",
+  firstName: "Testing",
+  lastName: "Test",
+  email: "test@gmail.com",
+  paassword: "12345678",
+  image:
+    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fletsenhance.io%2F&psig=AOvVaw2vJbgJIAivLmNMo0d8DZSC&ust=1711317212409000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNj2-8avi4UDFQAAAAAdAAAAABAE",
 };
 
 export const loginData = {
-  email: "leon@gmail.com",
+  email: "test@gmail.com",
   password: "12345678",
 };
 

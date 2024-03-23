@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
     "test": "jest --watchAll --no-cache --detectOpenHandles",
     "test:ci": "jest --coverage"
   },

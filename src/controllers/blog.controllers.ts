@@ -3,14 +3,14 @@ import Blog, { IBlog } from "../models/blog.model";
 import { uploadToCloud } from "../helper/cloud";
 
 // get all Blog
-export const getBlogs = async (req: Request, res: Response): Promise<void> => {
+export const getBlogs = async (req: Request, res: Response) => {
   try {
     const blog: IBlog[] = await Blog.find({});
-    res
+    return res
       .status(200)
       .json({ message: "Data retrieved successfully", data: blog });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
 
