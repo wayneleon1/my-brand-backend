@@ -18,6 +18,16 @@ let token: string;
 let id: string;
 let commentId: string;
 
+describe("My brand APIs test", () => {
+  test("it should return 200 and welcome message", async () => {
+    const { body } = await request(app)
+      .get("/")
+      .expect("Content-Type", /json/)
+      .expect(200);
+    expect(body.message).toStrictEqual("Welcome to RURANGWA Leo's brand API");
+  });
+});
+
 describe("Test Blog Apis", () => {
   beforeAll(async () => {
     await testConnectToDatabase();
@@ -26,16 +36,6 @@ describe("Test Blog Apis", () => {
   afterAll(async () => {
     await User.deleteMany();
     await Blog.deleteMany();
-  });
-
-  describe("My brand APIs test", () => {
-    test("it should return 200 and welcome message", async () => {
-      const { body } = await request(app)
-        .get("/")
-        .expect("Content-Type", /json/)
-        .expect(200);
-      expect(body.message).toStrictEqual("Welcome to RURANGWA Leo's brand API");
-    });
   });
 
   test("It should return the list of blogs", async () => {
@@ -87,6 +87,14 @@ describe("Test Blog Apis", () => {
     expect(body.data).toBeDefined();
   });
 
+  test("It should return the list of all comments", async () => {
+    const { body } = await request(app)
+      .get("/mybrand/blogComment/")
+      .expect(200);
+    expect(body.data).toBeDefined();
+    expect(body.message).toStrictEqual("Comments retrieved successfully");
+  });
+
   test("It will add comment and retuen 201", async () => {
     const { body } = await request(app)
       .post(`/mybrand/blogComment/${id}/comments/create`)
@@ -97,11 +105,21 @@ describe("Test Blog Apis", () => {
     commentId = body.data._id;
   });
 
+  test("It should delete Comment and return 200", async () => {
+    const { body } = await request(app)
+      .delete(`/mybrand/blogComment/${commentId}/comment/delete`)
+      .expect("Content-Type", /json/)
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200);
+    expect(body.message).toStrictEqual("Comment deleted successfully");
+  });
+
   test("It will delete Blog and return 200", async () => {
     const { body } = await request(app)
       .delete(`/mybrand/blog/${id}`)
       .expect("Content-Type", /json/)
       .set("Authorization", `Bearer ${token}`)
       .expect(200);
+    expect(body.message).toStrictEqual("Blog deleted successfully");
   });
 });

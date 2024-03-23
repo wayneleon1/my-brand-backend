@@ -54,7 +54,9 @@ export const getComments = async (
 ): Promise<void> => {
   try {
     const comment: IBlogComment[] = await BlogComment.find({});
-    res.status(200).json({ data: comment });
+    res
+      .status(200)
+      .json({ message: "Comments retrieved successfully", data: comment });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
