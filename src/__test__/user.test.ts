@@ -52,12 +52,23 @@ describe("Test User Apis", () => {
     expect(body.message).toStrictEqual("Data retrieved successfully");
   });
 
-  test("It should return single user by ID", async () => {
+  test("It should get single user by ID and return 200", async () => {
     const { body } = await request(app)
       .get(`/mybrand/user/${user_id}`)
       .expect("Content-Type", /json/)
       .set("Authorization", `Bearer ${token}`)
       .expect(200);
+    expect(body.data).toBeDefined();
+  });
+
+  test("It should  update a user by ID and return 200", async () => {
+    const { body } = await request(app)
+      .put(`/mybrand/user/${user_id}`)
+      .expect("Content-Type", /json/)
+      .set("Authorization", `Bearer ${token}`)
+      .send(userData)
+      .expect(201);
+    expect(body.message).toStrictEqual("User updated successfully");
     expect(body.data).toBeDefined();
   });
 });

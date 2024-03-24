@@ -81,10 +81,7 @@ export const getUserById = async (req: Request, res: Response) => {
 };
 
 // update a User by ID
-export const updateUser = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const updateUser = async (req: Request, res: Response) => {
   try {
     const userId: string = req.params.id;
     const updatedUser: IUser | null = await User.findByIdAndUpdate(
@@ -93,10 +90,11 @@ export const updateUser = async (
       { new: true }
     );
     if (!updatedUser) {
-      res.status(404).json({ message: "User not found" });
-      return;
+      return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json(updatedUser);
+    return res
+      .status(201)
+      .json({ message: "User updated successfully", data: updatedUser });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
