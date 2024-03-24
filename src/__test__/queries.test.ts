@@ -1,33 +1,32 @@
 import request from "supertest";
 import app from "../app";
 import { testConnectToDatabase } from "../config/dbConnection";
-import { loginData, userData } from "../data/static";
+import { loginData, userData, queriesData } from "../data/static";
 import User from "../models/users.model";
+import Queries from "../models/queries.model";
 
 jest.setTimeout(50000);
 
 let token: string;
-let user_id: string;
+let query_id: string;
 
-describe("Test User Apis", () => {
+describe.only("Test Queries Api's", () => {
   beforeAll(async () => {
     await testConnectToDatabase();
   });
+
   afterAll(async () => {
     await User.deleteMany();
+    await Queries.deleteMany();
   });
 
-  test("It should add new user and return 201 and message", async () => {
+  test("It will add new user and login and return 201 and message", async () => {
     const { body } = await request(app)
       .post("/mybrand/user")
       .send(userData)
       .expect(201);
     expect(body.message).toStrictEqual("User registered successfully");
-    expect(body.data).toBeDefined();
-    user_id = body.data._id;
-  });
 
-  test("It should Login and return token", async () => {
     const responeLogin = await request(app)
       .post("/mybrand/user/login")
       .send(loginData)
@@ -36,42 +35,41 @@ describe("Test User Apis", () => {
     token = responeLogin.body.accessToken;
   });
 
-  test("It should return the list of Users", async () => {
+  test("It will send Message and return 201", async () => {
     const { body } = await request(app)
-      .get("/mybrand/user/")
-      .expect(200)
+      .post("/mybrand/queries")
+      .send(queriesData)
+      .expect(201);
+    expect(body.message).toStrictEqual("Message Sent successfully");
+    expect(body.data._id).toBeDefined();
+    query_id = body.data._id;
+  });
+
+  test("It should return the list of queries", async () => {
+    const { body } = await request(app)
+      .get("/mybrand/queries/")
       .expect("Content-Type", /json/)
-      .set("Authorization", `Bearer ${token}`);
+      .set("Authorization", `Bearer ${token}`)
+      .expect(200);
     expect(body.data).toBeDefined();
     expect(body.message).toStrictEqual("Data retrieved successfully");
   });
 
-  test("It should get single user by ID and return 200", async () => {
+  test("It should get single query by ID ", async () => {
     const { body } = await request(app)
-      .get(`/mybrand/user/${user_id}`)
+      .get(`/mybrand/queries/${query_id}`)
       .expect("Content-Type", /json/)
       .set("Authorization", `Bearer ${token}`)
       .expect(200);
     expect(body.data).toBeDefined();
   });
 
-  test("It should  update a user by ID and return 201", async () => {
+  test("It will delete query by ID and return 200", async () => {
     const { body } = await request(app)
-      .put(`/mybrand/user/${user_id}`)
-      .expect("Content-Type", /json/)
-      .set("Authorization", `Bearer ${token}`)
-      .send(userData)
-      .expect(201);
-    expect(body.message).toStrictEqual("User updated successfully");
-    expect(body.data).toBeDefined();
-  });
-
-  test("It will delete User and return 200", async () => {
-    const { body } = await request(app)
-      .delete(`/mybrand/user/${user_id}`)
+      .delete(`/mybrand/queries/${query_id}`)
       .expect("Content-Type", /json/)
       .set("Authorization", `Bearer ${token}`)
       .expect(200);
-    expect(body.message).toStrictEqual("User deleted successfully");
+    expect(body.message).toStrictEqual("Message deleted successfully");
   });
 });

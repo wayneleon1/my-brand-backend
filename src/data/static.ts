@@ -1,10 +1,3 @@
-export const queryData = {
-  names: "John Doe",
-  email: "kdot@gmail.com",
-  subject: "Help",
-  message: "Help me to create the website",
-};
-
 export const userData = {
   firstName: "Testing",
   lastName: "Test",
@@ -29,4 +22,11 @@ export const commentData = {
   name: "usernames",
   email: "example@gmail.com",
   content: "This blog is awesome put more effort",
+};
+
+export const queriesData = {
+  names: "John Doe",
+  email: "string@gmail.com",
+  subject: "Job Oportunities",
+  message: "Here we go..",
 };

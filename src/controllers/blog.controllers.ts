@@ -15,10 +15,7 @@ export const getBlogs = async (req: Request, res: Response) => {
 };
 
 // Create a new Blog
-export const createBlog = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const createBlog = async (req: Request, res: Response) => {
   try {
     // const user_id = req.user?.id;
     const { blogTitle, category, blogContent, comments } = req.body;
@@ -52,11 +49,11 @@ export const createBlog = async (
 
     const savedBlog: IBlog = await newBlog.save();
 
-    res
+    return res
       .status(201)
       .json({ message: "Blog created successfully", data: savedBlog });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+   return res.status(500).json({ message: (error as Error).message });
   }
 };
 
@@ -84,8 +81,7 @@ export const updateBlog = async (req: Request, res: Response) => {
       { new: true }
     );
     if (!updatedBlog) {
-      res.status(404).json({ message: "Blog not found" });
-      return;
+      return res.status(404).json({ message: "Blog not found" });
     }
     return res
       .status(200)
@@ -96,19 +92,15 @@ export const updateBlog = async (req: Request, res: Response) => {
 };
 
 //  delete a Blog by ID
-export const deleteBlog = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const deleteBlog = async (req: Request, res: Response) => {
   try {
     const blogId: string = req.params.id;
     const deletedBlog: IBlog | null = await Blog.findByIdAndDelete(blogId);
     if (!deletedBlog) {
-      res.status(404).json({ message: "Blog not found" });
-      return;
+      return res.status(404).json({ message: "Blog not found" });
     }
-    res.status(200).json({ message: "Blog deleted successfully" });
+    return res.status(200).json({ message: "Blog deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };

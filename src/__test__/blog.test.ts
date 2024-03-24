@@ -1,13 +1,7 @@
 import request from "supertest";
 import app from "../app";
 import { testConnectToDatabase } from "../config/dbConnection";
-import {
-  blogData,
-  commentData,
-  loginData,
-  queryData,
-  userData,
-} from "../data/static";
+import { blogData, commentData, loginData, userData } from "../data/static";
 
 import Blog from "../models/blog.model";
 import User from "../models/users.model";
