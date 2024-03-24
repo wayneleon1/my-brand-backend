@@ -61,28 +61,21 @@ export const createBlog = async (
 };
 
 // get a single Blog by ID
-export const getBlogById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getBlogById = async (req: Request, res: Response) => {
   try {
     const blogId: string = req.params.id;
     const blog: IBlog | null = await Blog.findById(blogId);
     if (!blog) {
-      res.status(404).json({ message: "Blog not found" });
-      return;
+      return res.status(404).json({ message: "Blog not found" });
     }
-    res.status(200).json(blog);
+    return res.status(200).json({ data: blog });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
 
 // update a Blog by ID
-export const updateBlog = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const updateBlog = async (req: Request, res: Response) => {
   try {
     const blogId: string = req.params.id;
     const updatedBlog: IBlog | null = await Blog.findByIdAndUpdate(
@@ -94,11 +87,11 @@ export const updateBlog = async (
       res.status(404).json({ message: "Blog not found" });
       return;
     }
-    res
+    return res
       .status(200)
       .json({ message: "Blog updated successfully", data: updatedBlog });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
 

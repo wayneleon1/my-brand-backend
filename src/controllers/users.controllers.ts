@@ -43,9 +43,11 @@ export const registerUser = async (req: Request, res: Response) => {
     const user = await newUser.save();
     return res.status(201).json({
       message: "User registered successfully",
-      _id: user.id,
-      email: user.email,
-      role: user.role,
+      data: {
+        _id: user.id,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     return res.status(400).json({ message: "User data was not valid" });
@@ -56,27 +58,25 @@ export const registerUser = async (req: Request, res: Response) => {
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const user: IUser[] = await User.find({}, { password: 0 });
-    return res.status(200).json({ data: user });
+    return res
+      .status(200)
+      .json({ message: "Data retrieved successfully", data: user });
   } catch (error) {
     res.status(500).json({ message: (error as Error).message });
   }
 };
 
 // get a single User by ID
-export const getUserById = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getUserById = async (req: Request, res: Response) => {
   try {
     const userId: string = req.params.id;
     const user: IUser | null = await User.findById(userId, { password: 0 });
     if (!user) {
-      res.status(404).json({ message: "User not found" });
-      return;
+      return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json(user);
+    return res.status(200).json({ data: user });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
 
