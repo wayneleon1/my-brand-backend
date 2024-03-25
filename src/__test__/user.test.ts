@@ -1,8 +1,10 @@
 import request from "supertest";
 import app from "../app";
-import { testConnectToDatabase } from "../config/dbConnection";
 import { loginData, userData } from "../data/static";
-import User from "../models/users.model";
+import { beforeAllHook, afterAllHook } from "./testSetup";
+
+beforeAll(beforeAllHook); // Run before all tests
+afterAll(afterAllHook); // Run after all tests
 
 jest.setTimeout(50000);
 
@@ -10,13 +12,6 @@ let token: string;
 let user_id: string;
 
 describe("Test User Apis", () => {
-  beforeAll(async () => {
-    await testConnectToDatabase();
-  });
-  afterAll(async () => {
-    await User.deleteMany();
-  });
-
   test("It should add new user and return 201 and message", async () => {
     const { body } = await request(app)
       .post("/mybrand/user")
