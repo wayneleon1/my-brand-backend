@@ -1,4 +1,3 @@
-// testSetup.js
 import request from "supertest";
 import app from "../app";
 import { testConnectToDatabase } from "../config/dbConnection";

@@ -1,16 +1,12 @@
 import request from "supertest";
 import app from "../app";
 import { blogData, commentData } from "../data/static";
-import {
-  registerAndLoginUser,
-  beforeAllHook,
-  afterAllHook,
-} from "./testUtils.test";
-
-jest.setTimeout(50000);
+import { registerAndLoginUser, beforeAllHook, afterAllHook } from "./testSetup";
 
 beforeAll(beforeAllHook); // Run before all tests
 afterAll(afterAllHook); // Run after all tests
+
+jest.setTimeout(50000);
 
 describe("My brand APIs test", () => {
   test("it should return 200 and welcome message", async () => {
@@ -22,10 +18,14 @@ describe("My brand APIs test", () => {
   });
 });
 
-describe("Test Blog Apis", async () => {
+describe("Test Blog Apis", () => {
   let id: string;
   let commentId: string;
-  const token = await registerAndLoginUser();
+  let token: string;
+
+  beforeAll(async () => {
+    token = await registerAndLoginUser();
+  });
 
   test("It should return the list of blogs", async () => {
     const { body } = await request(app).get("/mybrand/blog/").expect(200);

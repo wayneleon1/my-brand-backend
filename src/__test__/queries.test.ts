@@ -1,21 +1,21 @@
 import request from "supertest";
 import app from "../app";
 import { queriesData } from "../data/static";
-import {
-  registerAndLoginUser,
-  beforeAllHook,
-  afterAllHook,
-} from "./testUtils.test";
-
-jest.setTimeout(50000);
+import { registerAndLoginUser, beforeAllHook, afterAllHook } from "./testSetup";
 
 beforeAll(beforeAllHook); // Run before all tests
 afterAll(afterAllHook); // Run after all tests
 
-describe.only("Test Queries Api's", async () => {
-  const token = await registerAndLoginUser();
+jest.setTimeout(50000);
+
+describe("Test Queries Api's", () => {
   let query_id: string;
-  
+  let token: string;
+
+  beforeAll(async () => {
+    token = await registerAndLoginUser();
+  });
+
   test("It will send Message and return 201", async () => {
     const { body } = await request(app)
       .post("/mybrand/queries")
