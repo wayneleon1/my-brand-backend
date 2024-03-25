@@ -52,7 +52,7 @@ export const getSkillById = async (req: Request, res: Response) => {
     if (!skill) {
       return res.status(404).json({ message: "Skill not found" });
     }
-    res.status(200).json(skill);
+    res.status(200).json({ data: skill });
   } catch (error) {
     return res.status(500).json({ message: (error as Error).message });
   }
@@ -70,7 +70,9 @@ export const updateSkill = async (req: Request, res: Response) => {
     if (!updatedSkill) {
       return res.status(404).json({ message: "Skill not found" });
     }
-    res.status(200).json(updatedSkill);
+    res
+      .status(201)
+      .json({ message: "Skill updated successfully", data: updatedSkill });
   } catch (error) {
     return res.status(500).json({ message: (error as Error).message });
   }
