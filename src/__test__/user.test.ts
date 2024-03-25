@@ -3,8 +3,8 @@ import app from "../app";
 import { loginData, userData } from "../data/static";
 import { beforeAllHook, afterAllHook } from "./testSetup";
 
-beforeAll(beforeAllHook); // Run before all tests
-afterAll(afterAllHook); // Run after all tests
+beforeAll(beforeAllHook); 
+afterAll(afterAllHook); 
 
 jest.setTimeout(50000);
 

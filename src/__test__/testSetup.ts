@@ -10,7 +10,7 @@ import Project from "../models/project.model";
 import Skills from "../models/skills.model";
 import BlogComment from "../models/blogComment.model";
 
-// Function to register and login user
+// function to register and login user
 export async function registerAndLoginUser() {
   // Register user
   const { body: registerResponse } = await request(app)
