@@ -76,8 +76,8 @@ export const updateProject = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Project not found" });
     }
     return res
-      .status(200)
-      .json({ message: "Blog updated successfully", data: updatedProject });
+      .status(201)
+      .json({ message: "Project updated successfully", data: updatedProject });
   } catch (error) {
     return res.status(500).json({ message: (error as Error).message });
   }
