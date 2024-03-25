@@ -1,40 +1,21 @@
 import request from "supertest";
 import app from "../app";
-import { testConnectToDatabase } from "../config/dbConnection";
-import { loginData, userData, queriesData } from "../data/static";
-import User from "../models/users.model";
-import Queries from "../models/queries.model";
+import { queriesData } from "../data/static";
+import {
+  registerAndLoginUser,
+  beforeAllHook,
+  afterAllHook,
+} from "./testUtils.test";
 
 jest.setTimeout(50000);
 
-let token: string;
-let query_id: string;
+beforeAll(beforeAllHook); // Run before all tests
+afterAll(afterAllHook); // Run after all tests
 
-describe.only("Test Queries Api's", () => {
-  beforeAll(async () => {
-    await testConnectToDatabase();
-  });
-
-  afterAll(async () => {
-    await User.deleteMany();
-    await Queries.deleteMany();
-  });
-
-  test("It will add new user and login and return 201 and message", async () => {
-    const { body } = await request(app)
-      .post("/mybrand/user")
-      .send(userData)
-      .expect(201);
-    expect(body.message).toStrictEqual("User registered successfully");
-
-    const responeLogin = await request(app)
-      .post("/mybrand/user/login")
-      .send(loginData)
-      .expect(200);
-    expect(responeLogin.body.accessToken).toBeDefined();
-    token = responeLogin.body.accessToken;
-  });
-
+describe.only("Test Queries Api's", async () => {
+  const token = await registerAndLoginUser();
+  let query_id: string;
+  
   test("It will send Message and return 201", async () => {
     const { body } = await request(app)
       .post("/mybrand/queries")

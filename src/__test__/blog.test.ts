@@ -1,16 +1,16 @@
 import request from "supertest";
 import app from "../app";
-import { testConnectToDatabase } from "../config/dbConnection";
-import { blogData, commentData, loginData, userData } from "../data/static";
-
-import Blog from "../models/blog.model";
-import User from "../models/users.model";
+import { blogData, commentData } from "../data/static";
+import {
+  registerAndLoginUser,
+  beforeAllHook,
+  afterAllHook,
+} from "./testUtils.test";
 
 jest.setTimeout(50000);
 
-let token: string;
-let id: string;
-let commentId: string;
+beforeAll(beforeAllHook); // Run before all tests
+afterAll(afterAllHook); // Run after all tests
 
 describe("My brand APIs test", () => {
   test("it should return 200 and welcome message", async () => {
@@ -22,35 +22,15 @@ describe("My brand APIs test", () => {
   });
 });
 
-describe("Test Blog Apis", () => {
-  beforeAll(async () => {
-    await testConnectToDatabase();
-  });
-
-  afterAll(async () => {
-    await User.deleteMany();
-    await Blog.deleteMany();
-  });
+describe("Test Blog Apis", async () => {
+  let id: string;
+  let commentId: string;
+  const token = await registerAndLoginUser();
 
   test("It should return the list of blogs", async () => {
     const { body } = await request(app).get("/mybrand/blog/").expect(200);
     expect(body.data).toBeDefined();
     expect(body.message).toStrictEqual("Data retrieved successfully");
-  });
-
-  test("It will add new user and login and return 201 and message", async () => {
-    const { body } = await request(app)
-      .post("/mybrand/user")
-      .send(userData)
-      .expect(201);
-    expect(body.message).toStrictEqual("User registered successfully");
-
-    const responeLogin = await request(app)
-      .post("/mybrand/user/login")
-      .send(loginData)
-      .expect(200);
-    expect(responeLogin.body.accessToken).toBeDefined();
-    token = responeLogin.body.accessToken;
   });
 
   test("It will add new blog and return 201", async () => {

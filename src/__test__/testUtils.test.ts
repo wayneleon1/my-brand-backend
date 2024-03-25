@@ -29,15 +29,13 @@ export async function registerAndLoginUser() {
     .expect(200);
   expect(loginResponse.accessToken).toBeDefined();
 
-  return loginResponse.accessToken; // Return the token for further use
+  return loginResponse.accessToken;
 }
 
-// Hook to run before all tests
 export async function beforeAllHook() {
   await testConnectToDatabase();
 }
 
-// Hook to run after all tests
 export async function afterAllHook() {
   await User.deleteMany();
   await Queries.deleteMany();
