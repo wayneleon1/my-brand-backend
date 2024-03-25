@@ -4,5 +4,6 @@ jobs:
       - image: cimg/node:20.11.1
 
     steps:
-      - run: npm run install
+      - checkout
+      - run: npm install
       - run: npm test
