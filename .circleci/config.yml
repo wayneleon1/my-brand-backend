@@ -1,0 +1,8 @@
+jobs:
+  build:
+    docker:
+      - image: cimg/node:20.11.1
+
+    steps:
+      - run: npm run install
+      - run: npm test
