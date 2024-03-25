@@ -4,24 +4,19 @@ import Blog, { IBlog } from "../models/blog.model";
 import BlogComment, { IBlogComment } from "../models/blogComment.model";
 
 // add Comments on Blog
-export const createComment = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const createComment = async (req: Request, res: Response) => {
   let blog_id = req.params.blog_id;
 
-     // checking Blog ID
+  // checking Blog ID
   if (!mongoose.Types.ObjectId.isValid(blog_id)) {
-    res.status(400).json({ message: "Invalid Blog ID" });
-    return;
+    return res.status(400).json({ message: "Invalid Blog ID" });
   }
 
-     // Get blog by Id
+  // Get blog by Id
   const blog: IBlog | null = await Blog.findById(blog_id);
 
   if (!blog) {
-    res.status(404).json({ message: "Blog not found" });
-    return;
+    return res.status(404).json({ message: "Blog not found" });
   } else {
     try {
       let newCommentDocument: IBlogComment = new BlogComment({
@@ -38,43 +33,38 @@ export const createComment = async (
           $push: { comments: commentData._id },
         }
       );
-      res
-        .status(200)
+      return res
+        .status(201)
         .send({ message: "Comment added successfuly", data: commentData });
     } catch (error) {
-      res.status(500).json({ message: (error as Error).message });
+      return res.status(500).json({ message: (error as Error).message });
     }
   }
 };
 
 // Get all comments from BlogComments
-export const getComments = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const getComments = async (req: Request, res: Response) => {
   try {
     const comment: IBlogComment[] = await BlogComment.find({});
-    res.status(200).json({ data: comment });
+    return res
+      .status(200)
+      .json({ message: "Comments retrieved successfully", data: comment });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
 
 // Delete a Comment
-export const deleteComment = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const deleteComment = async (req: Request, res: Response) => {
   try {
     const commentId: string = req.params.id;
     const deletedComment: IBlogComment | null =
       await BlogComment.findByIdAndDelete(commentId);
     if (!deletedComment) {
-      res.status(404).json({ message: "Comment not found" });
-      return;
+      return res.status(404).json({ message: "Comment not found" });
     }
-    res.status(200).json({ message: "Comment deleted successfully" });
+    return res.status(200).json({ message: "Comment deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: (error as Error).message });
+    return res.status(500).json({ message: (error as Error).message });
   }
 };
