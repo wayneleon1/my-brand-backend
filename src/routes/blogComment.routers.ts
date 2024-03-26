@@ -9,7 +9,7 @@ import {
 } from "../controllers/blogComment.controllers";
 
 router.post(
-  "/:blog_id/comments/create",
+  "/:blog_id/comment/create",
   fileUpload.single("file"),
   createComment
 );

@@ -71,7 +71,7 @@ describe("Test Blog Apis", () => {
 
   test("It will add comment and retuen 201", async () => {
     const { body } = await request(app)
-      .post(`/mybrand/blogComment/${id}/comments/create`)
+      .post(`/mybrand/blogComment/${id}/comment/create`)
       .send(commentData)
       .expect(201);
     expect(body.message).toStrictEqual("Comment added successfuly");
