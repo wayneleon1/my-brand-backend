@@ -17,7 +17,7 @@ router
 router
   .route("/:id")
   .get(getBlogById)
-  .put(validateToken, updateBlog)
+  .put(validateToken, fileUpload.single("image"), updateBlog)
   .delete(validateToken, deleteBlog);
 
 export default router;

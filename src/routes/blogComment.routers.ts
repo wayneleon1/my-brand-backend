@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 const router: Router = express.Router();
+import fileUpload from "../helper/multer";
 import validateToken from "../middleware/validateTokenHandler";
 import {
   createComment,
@@ -7,7 +8,11 @@ import {
   getComments,
 } from "../controllers/blogComment.controllers";
 
-router.post("/:blog_id/comments/create", createComment);
+router.post(
+  "/:blog_id/comments/create",
+  fileUpload.single("file"),
+  createComment
+);
 router.get("/", getComments);
 router.delete("/:id/comment/delete", validateToken, deleteComment);
 

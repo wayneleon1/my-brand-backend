@@ -116,7 +116,6 @@ const options = {
                   email: {
                     type: "string",
                   },
-
                   password: {
                     type: "string",
                   },
@@ -134,7 +133,7 @@ const options = {
             description: "Email or password is not valid",
           },
           400: {
-            description: "All fields are mandatory!",
+            description: "Bad Request",
           },
           500: {
             description: "Internal Server Error",
@@ -466,89 +465,6 @@ const options = {
           },
           400: {
             description: "Bad Request",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
-      },
-
-      delete: {
-        tags: ["BlogComment"],
-        summary: "Delete comment",
-        description: "comment ID to be deleted",
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Comment deleted successfully",
-          },
-          400: {
-            description: "Bad Request",
-          },
-          404: {
-            description: "Comment not found",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
-      },
-    },
-    "/mybrand/questions/read/{id}": {
-      get: {
-        tags: ["Question"],
-        summary: "Get all Questions for category you want",
-        description: "Enter category ID to view all questions",
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Question retrieved",
-          },
-          500: {
-            description: "Internal Server Error",
-          },
-        },
-      },
-    },
-    "/mybrand/questions/readOne/{id}": {
-      get: {
-        tags: ["Question"],
-        summary: "Read Question by ID",
-        description: "Enter ID to view question details.",
-        parameters: [
-          {
-            name: "id",
-            in: "path",
-            required: true,
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          200: {
-            description: "Question retrieved",
-          },
-          404: {
-            description: "Question not found",
           },
           500: {
             description: "Internal Server Error",
