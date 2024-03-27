@@ -1,20 +1,10 @@
-{
-    "jobs": {
-        "build": {
-            "docker": [
-                {
-                    "image": "cimg/node:20.11.1"
-                }
-            ],
-            "steps": [
-                "checkout",
-                {
-                    "run": "npm install"
-                },
-                {
-                    "run": "npm test"
-                }
-            ]
-        }
-    }
-}
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies in My_bland
+          command: npm install
