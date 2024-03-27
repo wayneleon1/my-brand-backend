@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:20.11.1
+      - image: circleci/node:14
     steps:
       - checkout
       - run:
@@ -11,7 +11,8 @@ jobs:
             TEST_USER_NAME: TEST_USER_NAME
             TEST_KEY: TEST_KEY
             TEST_COLLECTION_NAME: TEST_COLLECTION_NAME
+            ACCESS_TOKEN_SECRET: ACCESS_TOKEN_SECRET
           command: npm install
       - run:
-          name: Testing apis
-          command: npm test
+          name: Run test apis
+          command: npm run test
