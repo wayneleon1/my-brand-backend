@@ -7,6 +7,10 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies in My_bland
+          environment:
+            TEST_USER_NAME: TEST_USER_NAME
+            TEST_KEY: TEST_KEY
+            TEST_COLLECTION_NAME: TEST_COLLECTION_NAME
           command: npm install
       - run:
           name: Testing apis
