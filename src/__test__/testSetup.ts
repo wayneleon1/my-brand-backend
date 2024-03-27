@@ -11,6 +11,7 @@ import Skills from "../models/skills.model";
 import BlogComment from "../models/blogComment.model";
 
 // function to register and login user
+
 export async function registerAndLoginUser() {
   // Register user
   const { body: registerResponse } = await request(app)

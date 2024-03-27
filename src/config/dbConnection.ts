@@ -16,7 +16,7 @@ export const connectToDatabase = async () => {
 export const testConnectToDatabase = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://test-admin:MJ6R6DZKfS4v4DpG@cluster0.zel7qfl.mongodb.net/test-my-brand?retryWrites=true&w=majority&appName=Cluster0`
+      `mongodb+srv://${process.env.TEST_USER_NAME}:${process.env.TEST_KEY}@cluster0.zel7qfl.mongodb.net/${process.env.TEST_COLLECTION_NAME}?retryWrites=true&w=majority&appName=Cluster0`
     );
     console.log("Your are connected on Test Database");
   } catch (error) {
