@@ -17,7 +17,7 @@ router
 router
   .route("/:id")
   .get(getProjectById)
-  .put(validateToken, updateProject)
+  .put(validateToken, fileUpload.single("image"), updateProject)
   .delete(validateToken, deleteProject);
 
 export default router;

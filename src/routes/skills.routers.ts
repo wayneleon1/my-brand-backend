@@ -17,6 +17,6 @@ router
 router
   .route("/:id")
   .get(validateToken, getSkillById)
-  .put(validateToken, updateSkill)
+  .put(validateToken, fileUpload.single("image"), updateSkill)
   .delete(validateToken, deleteSkill);
 export default router;
