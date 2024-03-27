@@ -25,7 +25,8 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "transform": "^.+\\.tsx?$': 'babel-jest"
   },
   "dependencies": {
     "@types/babel__core": "^7.20.5",
