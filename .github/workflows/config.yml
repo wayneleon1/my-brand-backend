@@ -29,9 +29,7 @@ jobs:
           API_KEY=${{ secrets.API_KEY }}
           API_SECRET=${{ secrets.API_SECRET }}
           EOL
-      - run: npm test -- --watchAll=false
       - run: npm run test:ci
-      - run: npx update-badge
       - name: Fail job if any previous step failed
         if: ${{ failure() }}
         run: exit 1
