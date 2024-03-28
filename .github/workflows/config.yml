@@ -1,0 +1,37 @@
+name: Build
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18]
+    steps:
+      - uses: actions/checkout@v4
+      - name: use node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - name: create env file
+        run: |
+          cat >.env <<EOL
+          TEST_USER_NAME=${{ secrets.TEST_USER_NAME }}
+          TEST_KEY=${{ secrets.TEST_KEY }}
+          TEST_COLLECTION_NAME=${{ secrets.TEST_COLLECTION_NAME }}
+          PORT=${{ secrets.PORT }}
+          ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}
+          CLOUD_NAME=${{ secrets.CLOUD_NAME }}
+          API_KEY=${{ secrets.API_KEY }}
+          API_SECRET=${{ secrets.API_SECRET }}
+          EOL
+      - run: npm test -- --watchAll=false
+      - run: npm run test:ci
+      - run: npx update-badge
+      - name: Fail job if any previous step failed
+        if: ${{ failure() }}
+        run: exit 1
