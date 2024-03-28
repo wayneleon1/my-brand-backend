@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only index.ts",
-    "test": "jest --watchAll --no-cache --detectOpenHandles --runInBand --bail",
+    "test": "jest --watchAll --no-cache --detectOpenHandles",
     "test:ci": "jest --coverage --detectOpenHandles"
   },
   "keywords": [],
