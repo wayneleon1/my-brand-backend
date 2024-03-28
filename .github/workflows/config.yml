@@ -29,12 +29,7 @@ jobs:
           API_KEY=${{ secrets.API_KEY }}
           API_SECRET=${{ secrets.API_SECRET }}
           EOL
-      - name: Run tests
-        run: |
-          npm run test -- --watchAll=false
-          echo "Tests completed successfully"
-          # Add a sleep command to give time for any lingering processes to finish
-          sleep 5
+      - run: npm run test -- --watchAll=false
       - run: npm run test:ci
       - run: npx update-badge
       - name: Fail job if any previous step failed
