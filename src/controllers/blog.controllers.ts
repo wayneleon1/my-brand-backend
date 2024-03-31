@@ -17,15 +17,9 @@ export const getBlogs = async (req: Request, res: Response) => {
 // Create a new Blog
 export const createBlog = async (req: Request, res: Response) => {
   try {
-    // const user_id = req.user?.id;
+    const authorId = (req as any).user.id;
     const { blogTitle, category, blogContent, comments } = req.body;
     let imageUrl: string | undefined = undefined;
-
-    // Checking if user is Existing
-    // if (!user_id) {
-    //   res.status(400).json({ message: "User ID is missing" });
-    //   return;
-    // }
 
     //Check if Image is Uploaded
     if (req.file) {
@@ -37,9 +31,8 @@ export const createBlog = async (req: Request, res: Response) => {
         throw new Error("Failed to upload image to Cloudinary");
       }
     }
-
     const newBlog: IBlog = new Blog({
-      // user_id,
+      author: authorId,
       blogTitle,
       category,
       blogContent,
