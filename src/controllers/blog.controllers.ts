@@ -54,7 +54,12 @@ export const createBlog = async (req: Request, res: Response) => {
 export const getBlogById = async (req: Request, res: Response) => {
   try {
     const blogId: string = req.params.id;
-    const blog: IBlog | null = await Blog.findById(blogId);
+    const blog: IBlog | null = await Blog.findById(blogId)
+      .populate({
+        path: "comments",
+        select: "name content createdAt",
+      })
+      .populate({ path: "author", select: "firstName lastName role" });
     if (!blog) {
       return res.status(404).json({ message: "Blog not found" });
     }
