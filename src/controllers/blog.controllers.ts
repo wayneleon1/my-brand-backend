@@ -5,7 +5,10 @@ import { uploadToCloud } from "../helper/cloud";
 // get all Blog
 export const getBlogs = async (req: Request, res: Response) => {
   try {
-    const blog: IBlog[] = await Blog.find({});
+    const blog: IBlog[] = await Blog.find({}).populate({
+      path: "author",
+      select: "firstName",
+    });
     return res
       .status(200)
       .json({ message: "Data retrieved successfully", data: blog });
