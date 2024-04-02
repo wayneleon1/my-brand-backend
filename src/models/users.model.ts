@@ -35,7 +35,8 @@ const UserSchema = new Schema(
     image: {
       type: String,
       required: false,
-      default:"http://res.cloudinary.com/dw9v1nh6a/image/upload/v1712067870/my-brand/e55c618d4f1863cf9e251c8600e7ac52_gjrlfz.png",
+      default:
+        "http://res.cloudinary.com/dw9v1nh6a/image/upload/v1712067870/my-brand/e55c618d4f1863cf9e251c8600e7ac52_gjrlfz.png",
     },
     role: {
       type: String,
