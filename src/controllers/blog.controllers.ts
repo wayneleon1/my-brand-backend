@@ -76,9 +76,27 @@ export const getBlogById = async (req: Request, res: Response) => {
 export const updateBlog = async (req: Request, res: Response) => {
   try {
     const blogId: string = req.params.id;
+    const { blogTitle, category, blogContent, comments } = req.body;
+
+    let imageUrl: string | undefined = undefined;
+    //Check if Image is Uploaded
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
     const updatedBlog: IBlog | null = await Blog.findByIdAndUpdate(
       blogId,
-      req.body,
+      {
+        blogTitle,
+        category,
+        blogContent,
+        image: imageUrl,
+      },
       { new: true }
     );
     if (!updatedBlog) {

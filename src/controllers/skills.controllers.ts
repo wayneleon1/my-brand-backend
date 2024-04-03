@@ -62,9 +62,27 @@ export const getSkillById = async (req: Request, res: Response) => {
 export const updateSkill = async (req: Request, res: Response) => {
   try {
     const skillId: string = req.params.id;
+    const { name, type } = req.body;
+
+    let imageUrl: string | undefined = undefined;
+
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+
     const updatedSkill: ISkills | null = await Skills.findByIdAndUpdate(
       skillId,
-      req.body,
+      {
+        name,
+        type,
+        image: imageUrl,
+      },
       { new: true }
     );
     if (!updatedSkill) {

@@ -67,9 +67,32 @@ export const getProjectById = async (req: Request, res: Response) => {
 export const updateProject = async (req: Request, res: Response) => {
   try {
     const projectId: string = req.params.id;
+
+    const { projectName, category, githubLink, hostedLink, description } =
+      req.body;
+
+    let imageUrl: string | undefined = undefined;
+    //Check if Image is Uploaded
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+
     const updatedProject: IProject | null = await Project.findByIdAndUpdate(
       projectId,
-      req.body,
+      {
+        projectName,
+        category,
+        githubLink,
+        hostedLink,
+        image: imageUrl,
+        description,
+      },
       { new: true }
     );
     if (!updatedProject) {
