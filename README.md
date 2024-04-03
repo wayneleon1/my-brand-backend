@@ -1,4 +1,4 @@
-
+[![Build](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml/badge.svg)](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml)
 # My brand backend 
 
 My personal website backend , built with Node.js and TypeScript.
