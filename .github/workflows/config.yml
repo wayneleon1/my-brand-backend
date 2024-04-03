@@ -31,6 +31,7 @@ jobs:
           EOL
       - run: npm run test
       - run: npm run test:ci
+      - run: npx update-badge
       - name: Fail job if any previous step failed
         if: ${{ failure() }}
         run: exit 1
