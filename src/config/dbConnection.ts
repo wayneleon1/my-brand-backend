@@ -23,3 +23,12 @@ export const testConnectToDatabase = async () => {
     console.log("failed to connect on Test Database", error);
   }
 };
+
+export const testDisconnectFromDatabase = async () => {
+  try {
+    await mongoose.disconnect();
+    console.log("Disconnected from the Test Database");
+  } catch (error) {
+    console.log("Failed to disconnect from the Test Database", error);
+  }
+};

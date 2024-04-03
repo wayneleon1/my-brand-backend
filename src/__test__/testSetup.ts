@@ -1,6 +1,9 @@
 import request from "supertest";
 import app from "../app";
-import { testConnectToDatabase } from "../config/dbConnection";
+import {
+  testConnectToDatabase,
+  testDisconnectFromDatabase,
+} from "../config/dbConnection";
 import { loginData, userData } from "../data/static";
 
 import User from "../models/users.model";
@@ -43,4 +46,5 @@ export async function afterAllHook() {
   await BlogComment.deleteMany();
   await Project.deleteMany();
   await Skills.deleteMany();
+  await testDisconnectFromDatabase();
 }
