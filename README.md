@@ -4,9 +4,9 @@ My personal website backend , built with Node.js and TypeScript.
 
 ## Badges
 
-[![Build](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml/badge.svg)](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml)
+[![Build](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml/badge.svg)](https://github.com/wayneleon1/my-brand-backend/actions/workflows/config.yml) ![check-code-coverage](https://img.shields.io/badge/code--coverage-81.9%25-green)
 
-![check-code-coverage](https://img.shields.io/badge/code--coverage-81.9%25-green)
+
 
 ## Documentation
 
