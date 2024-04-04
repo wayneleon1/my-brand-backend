@@ -1,4 +1,4 @@
-import express, { Router, Express } from "express";
+import express, { Router } from "express";
 import docrouter from "../docs/docs";
 const router: Router = express.Router();
 

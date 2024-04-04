@@ -1,4 +1,3 @@
-import { error } from "console";
 import { Request, Response, NextFunction } from "express";
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
