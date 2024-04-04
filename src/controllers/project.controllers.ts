@@ -57,7 +57,7 @@ export const getProjectById = async (req: Request, res: Response) => {
       res.status(404).json({ message: "Project not found" });
       return;
     }
-    return res.status(200).json(project);
+    return res.status(200).json({ data: project });
   } catch (error) {
     return res.status(500).json({ message: (error as Error).message });
   }
