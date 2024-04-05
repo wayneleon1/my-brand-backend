@@ -86,9 +86,30 @@ export const getUserById = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const userId: string = req.params.id;
+
+    const { firstName, lastName, email, role } = req.body;
+
+    let imageUrl: string | undefined = undefined;
+    //Check if Image is Uploaded
+    if (req.file) {
+      const result = await uploadToCloud(req.file, res);
+      if ("url" in result) {
+        // If 'url' property exists in result, set imageUrl
+        imageUrl = result.url;
+      } else {
+        throw new Error("Failed to upload image to Cloudinary");
+      }
+    }
+
     const updatedUser: IUser | null = await User.findByIdAndUpdate(
       userId,
-      req.body,
+      {
+        firstName,
+        lastName,
+        email,
+        image: imageUrl,
+        role,
+      },
       { new: true }
     );
     if (!updatedUser) {
@@ -129,7 +150,7 @@ export const loginUser = async (req: Request, res: Response) => {
     }
 
     const user = await User.findOne({ email });
-    
+
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res
         .status(401)
